@@ -7,12 +7,24 @@ from pathlib import Path
 
 
 def drop_tables(cur, conn):
+    '''
+    This function is used to drop the tables
+    from the drop_table_queries list
+
+    arguments: cur-->cursor, conn--> connection to the database
+    '''
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def create_tables(cur, conn):
+     '''
+    This function is used to create the required tables
+    from the drop_table_queries list
+
+    arguments: cur-->cursor, conn--> connection to the database
+    '''
     for query in create_table_queries:
         try:
             cur.execute(query)
@@ -23,6 +35,11 @@ def create_tables(cur, conn):
 
 
 def main():
+    '''
+    This function is used to combine the functions above.
+    Loads the credentials from the config file, drops
+    the tables if they exist and then creates them
+    '''
     path = Path(__file__)
     ROOT_DIR = path.parent.absolute()
     config_path = os.path.join(ROOT_DIR, "dwh.cfg")

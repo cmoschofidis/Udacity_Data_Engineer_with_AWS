@@ -111,7 +111,7 @@ artist_table_create = (
     artist_id VARCHAR PRIMARY KEY,
     name VARCHAR,
     location VARCHAR,
-    lattitude FLOAT,
+    latitude FLOAT,
     longitude FLOAT
     )
     """
