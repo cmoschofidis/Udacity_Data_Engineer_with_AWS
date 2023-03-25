@@ -40,8 +40,6 @@ The log files in the dataset you'll be working with are partitioned by year and 
 log_data/2018/11/2018-11-12-events.json
 log_data/2018/11/2018-11-13-events.json
 ```
-And below is an example of what the data in a log file, looks like.
-![](https://github.com/willytakasawa/data-engineering-nanodegree/blob/master/Data%20Modeling%20with%20Postgres/imgs/log-data.png)
 
 ## Database Schema
 ### Schema for Song Play Analysis
@@ -60,6 +58,7 @@ This project uses star schema with one fact table and four dimension tables to o
 5. time - timestamps of records in songplays broken down into specific units
     - *start_time, hour, day, week, month, year, weekday*
 
+![](https://github.com/cmoschofidis/Udacity_Data_Engineer_with_AWS/blob/main/2.Cloud_Data_Warehouses/ERD.svg)
 
 ## Project Structure
 Each task of the workflow which loads data from S3 buckets into analytical structure on AWS Redshift is detailed below:
