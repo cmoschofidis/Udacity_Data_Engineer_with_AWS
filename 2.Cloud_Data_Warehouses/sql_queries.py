@@ -205,7 +205,7 @@ song_table_insert = (
 
 artist_table_insert = (
     """
-    INSERT INTO dim_artists(artist_id, name, location, lattitude, longitude)
+    INSERT INTO dim_artists(artist_id, name, location, latitude, longitude)
     SELECT 
         DISTINCT(artist_id),
         artist_name,

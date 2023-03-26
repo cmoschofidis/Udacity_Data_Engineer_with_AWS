@@ -19,7 +19,7 @@ def drop_tables(cur, conn):
 
 
 def create_tables(cur, conn):
-     '''
+    '''
     This function is used to create the required tables
     from the drop_table_queries list
 
