@@ -39,15 +39,15 @@ aws s3 cp s3://udacity-dend/song-data/ ~/song-data/ --recursive
 - Copy the data from the home cloudshell directory to required bucket:
 
 ```bash
-aws s3 cp ~/log-data/ s3://uc-de-airflow-aws/log-data/ --recursive
-aws s3 cp ~/song-data/ s3://uc-de-airflow-aws/song-data/ --recursive
+aws s3 cp ~/log-data/ s3://airflow-bucket-udacity/log-data/ --recursive
+aws s3 cp ~/song-data/ s3://airflow-bucket-udacity/song-data/ --recursive
 ```
 
 - List the data in your own bucket to be sure it copied over
 
 ```bash
-aws s3 ls s3://uc-de-airflow-aws/log-data/
-aws s3 ls s3://uc-de-airflow-aws/song-data/
+aws s3 ls s3://airflow-bucket-udacity/log-data/
+aws s3 ls s3://airflow-bucket-udacity/song-data/
 ```
 
 ### Airflow DAG
