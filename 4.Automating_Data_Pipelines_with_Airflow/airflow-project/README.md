@@ -26,7 +26,7 @@ Create custom operators to perform tasks such as staging the data, filling the d
 - Create S3 bucket
 
 ```bash
-aws s3 mb s3://uc-de-airflow-aws/
+aws s3 mb s3://airflow-bucket-udacity/
 ```
 
 - Copy the data from the udacity bucket to the home cloudshell directory:
