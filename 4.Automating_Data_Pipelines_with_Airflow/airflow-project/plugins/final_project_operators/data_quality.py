@@ -8,22 +8,54 @@ class DataQualityOperator(BaseOperator):
 
     @apply_defaults
     def __init__(self,
-                 redshift_conn_id="", 
-                 tables=[],
+                 redshift_conn_id = 'redshift',
+                 rules = '',
+                 tables = '',
                  *args, **kwargs):
 
         super(DataQualityOperator, self).__init__(*args, **kwargs)
+        
         self.redshift_conn_id = redshift_conn_id
+        self.rules = rules
         self.tables = tables
 
     def execute(self, context):
+
+        # setup ---
         redshift_hook = PostgresHook(self.redshift_conn_id)
+
+        # run data quality checks --
+
         for table in self.tables:
-            self.log.info(f"Getting records from {table}")
-            records = redshift_hook.get_records(f"SELECT COUNT(*) FROM {table}")
-            if len(records) < 1 or len(records[0]) < 1:
-                raise ValueError(f"Data quality check failed. {table} returned no results")
-            num_records = records[0][0]
-            if num_records < 1:
-                raise ValueError(f"Data quality check failed. {table} contained 0 rows")
-            logging.info(f"Data quality on table {table} check passed with {records[0][0]} records")
+
+            for rule in self.rules:
+
+                query_sql = self.rules.get(rule).get('query')
+                operation = self.rules.get(rule).get('operation')
+                ref_value = self.rules.get(rule).get('ref_value')
+
+                queries = []
+
+                if rule == 'row_count':
+                    queries = [query_sql.format(table)]
+
+                elif rule == 'null_count':
+                    cols = self.tables.get(table)
+                    for col in cols:
+                        queries.append(query_sql.format(table, col))
+                
+                for query in queries:
+
+                    result = int(redshift_hook.get_first(query)[0])
+
+                    msg = f'{table :<12} | {rule :<12} | returned: {result :>4} | expected: {operation :<12} {ref_value :>4} | {query :<60}'
+
+                    if operation == 'greater_than':
+                        if result <= ref_value:
+                            raise AssertionError(f'Failed -> {msg}')
+                        
+                    if operation == 'less_than':
+                        if result >= ref_value:
+                            raise AssertionError(f'Failed -> {msg}')
+                    
+                    self.log.info(f'Passed -> {msg}')
